@@ -1,6 +1,4 @@
 # Python3 implementation of Min Heap
-
-import array
 import sys
 from HeapElement import HeapElement
 from Node import Node
@@ -10,14 +8,14 @@ class MinHeap:
         self.array = []
         self.size = 0
 
-    def parentIndx(indx):
-        return (indx - 1)/2
+    def parentFind(self, indx):
+        return int((indx - 1)/2)
 
-    def leftChild(indx):
-        return(2 * indx) +1
+    def leftChild(self, indx):
+        return int((2 * indx) +1)
 
-    def rightChild(indx):
-        return (2 * indx) +2
+    def rightChild(self, indx):
+        return int((2 * indx) +2)
 
     def swap(self,indx1, indx2):
         temp = self.array[indx1]
@@ -27,66 +25,72 @@ class MinHeap:
     #add an element to the MinHeap
     def add(self, HeapElement, priority):
         curr = Node(HeapElement, priority)
-
+        
         #put new node in the array
         self.array.append(curr)
-        currIndx = len(self.array)
-        parent = array[parentIndx(currIndx)]
+        currIndx = self.size 
+        parentNode = self.array[self.parentFind(currIndx)]
+        
 
         #percolate up
-        while curr.priority < parent.priority and currIndx != 0:
-            parentIndx = parentIndx(currIndx)
-            swap(currIndx, parentIndx)
+        while currIndx != 0 and curr.priority < parentNode.priority:
+            parentIndx = self.parentFind(currIndx)
+            self.swap(currIndx, parentIndx)
             currIndx = parentIndx
-            parent = array[parentIndx(currIndx)]
+            parentNode = self.array[self.parentFind(currIndx)]
 
-        size = size + 1 
+        self.size = self.size + 1 
 
    #poll (lowest priority)
-    def poll():
-        rootVal = array[0]
-        array[0] = array[size - 1]
-        size = size - 1
+    def poll(self):
+        rootVal = self.array[0]
+        self.array[0] = self.array[self.size - 1]
+        self.array.pop(self.size - 1) 
+        self.size = self.size - 1
         currNodeIndx = 0
 
        #percolate down
         while(True):
-            if leftChild(currNodeIndx) >= size:
+            if self.leftChild(currNodeIndx) >= self.size:
                 break
             childNodeIndx = -1
-            if size == 2:
+            if self.size == 2:
                 childNodeIndx = 1
-            elif array[leftChild(currNodeIndx)] != None and array[rightChild(currNodeIndx)] != None and array[leftChild(currNodeIndx)].priority > array[rightChild(currNodeIndx)].priority:
-                childNodeIndx = rightChild(currNodeIndx) 
+            elif (not self.rightChild(currNodeIndx) >= self.size) and self.array[self.leftChild(currNodeIndx)].priority > self.array[self.rightChild(currNodeIndx)].priority:
+                childNodeIndx = self.rightChild(currNodeIndx) 
             else:
-                childNodeIndx = leftChild(currNodeIndx)
+                childNodeIndx = self.leftChild(currNodeIndx)
 
-            if array[currNodeIndx].priority < array[childNodeIndx].priority:
+            if self.array[currNodeIndx].priority < self.array[childNodeIndx].priority:
                 break
 
-            swap(currNodeIndx, childNodeIndx)
+            self.swap(currNodeIndx, childNodeIndx)
             currNodeIndx = childNodeIndx
 
-        return rootVal.value
+        return rootVal
 
 
     def size(self):
         return self.size
 
     def peek(self):
-        if self.array[0] == None:
+        if not(self.array):
             return None
         return self.array[0].value
-
-    def printTree(self):
-        self.printTree(0,"")
 
     def printTree(self, index, indent):
         if index >= self.size:
             return
         self.printTree(self.rightChild(index), indent + "    ")
-        print(indent + self.array[index].value)
+        print(indent, self.array[index].value.value)
         self.printTree(self.leftChild(index), indent + "    ")
-
-
-
+    
+    def printArray(self):
+        if self.size == 0:
+            print("{}")
+        result = "{" #+ str(self.array[0].value.value)
+        
+        for x in self.array:
+            result += ", " + str(x.value.value)
+            
+        print(result + "}")
