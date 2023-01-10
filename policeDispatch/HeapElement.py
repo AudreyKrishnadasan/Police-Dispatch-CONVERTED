@@ -1,7 +1,7 @@
 class HeapElement:
 	value = 0
-	def __init__ (self, num):
-		self.value = num
+	def __init__ (self, incident):
+		self.value = incident
 
-	def toString():
-		return self.value.toString()
+	def toString(self):
+		return str(self.value)
