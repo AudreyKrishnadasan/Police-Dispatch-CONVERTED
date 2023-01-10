@@ -1,12 +1,10 @@
-class Incident:
+from IncidentType import IncidentType
 
-    reportTime = 0
-    incidentType = WELLNESS_CHECK
-    duration = 0
+class Incident:
 
     def __init__(self, userReportTime, userIncidentType, userDuration):
         self.reportTime = userReportTime
-        self.indcidentType = userIncidentType
+        self.incidentType = userIncidentType
         self.duration = userDuration
         self.dispatchTime = -1
         self.dispatchedUnit = -1
@@ -16,7 +14,7 @@ class Incident:
         self.dispatchedUnit = unit
 
     def dispatched(self):
-        return self.dispatchTime != -1 && self.dispatchedUnit != -1
+        return self.dispatchTime != -1 and self.dispatchedUnit != -1
 
     def getReportTime(self):
         return self.reportTime
@@ -34,45 +32,46 @@ class Incident:
         return self.dispatchedUnit
 
     def getResolutionTime(self):
-        if dispatched(self):
+        if self.dispatched():
             return self.dispatchTime + self.duration
         else:
             return -1
 
-    def getTimePriority():
-        if dispatched(self):
-            return getResolutionTime(self)
+    def getTimePriority(self):
+        if self.dispatched():
+            return self.getResolutionTime()
         else:
             return self.reportTime
 
-    def getTriagePriority():
+    def getTriagePriority(self):
         multiplier = 0
         if self.incidentType == IncidentType.WELLNESS_CHECK:
             multiplier = 3
-        else if self.incidentType == IncidentType.TRAFFIC_COLLISION:
+        elif self.incidentType == IncidentType.TRAFFIC_COLLISION:
             multiplier = 2
-        else if self.incidentType == IncidentType.ROBBERY:
+        elif self.incidentType == IncidentType.ROBBERY:
             multiplier = 1
-        else if self.incidentType == IncidentType.MURDER:
+        elif self.incidentType == IncidentType.MURDER:
             multiplier = 0
         return multiplier * 200000 + self.reportTime
 
-    def getIncidentTypeString():
+    def getIncidentTypeString(self):
         if self.incidentType == IncidentType.WELLNESS_CHECK:
             return "wellness check"
-        else if self.incidentType == IncidentType.TRAFFIC_COLLISION:
+        elif self.incidentType == IncidentType.TRAFFIC_COLLISION:
             return "traffic collision"
-        else if self.incidentType == IncidentType.ROBBERY:
+        elif self.incidentType == IncidentType.ROBBERY:
             return "robbery"
-        else if self.incidentType == IncidentType.MURDER:
+        elif self.incidentType == IncidentType.MURDER:
             return "murder"
         return ""
 
-    def toString():
+    def toString(self):
         return ("Incident("
-            + self.reportTime + ", "
-            + getIncidentTypeString(self) + ", "
-            + self.duration + ", "
-            + self.dispatchTime + ", "
-            + self.dispatchedUnit
+            + str(self.reportTime) + ", "
+            + self.getIncidentTypeString() + ", "
+            + str(self.duration) + ", "
+            + str(self.dispatchTime) + ", "
+            + str(self.dispatchedUnit)
             + ")")
+
