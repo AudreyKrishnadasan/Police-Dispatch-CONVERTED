@@ -3,9 +3,59 @@ from HeapElement import HeapElement
 from Simulation import Simulation
 from Incident import Incident
 from IncidentType import IncidentType
+from tkinter import*
+
 
 class Run:
+    root = Tk()
+    root.title("Police Dispatch Simulation")
+
+    def firstClick():
+        numUnits = e.get()
+        top = Toplevel()
+        top.title('Enter Event Details')
+        
+        explainLbl = Label(top, text = "Enter event details here, once you have finalized your details for that event, click submit event button. Continue entering events until you are ready to watch your simulation unfold and hit run simulation!")
+        explainLbl.pack()
+
+        reportTimeLbl = Label(top, text = "Enter the report time (ex: 0, 43, 277)")
+        reportTimeLbl.pack()
+
+        eReportTime = Entry(top, width = 20)
+        eReportTime.pack()
+
+        typeLbl = Label(top, text="Select the type of Event")
+        typeLbl.pack()
+
+        durationLbl = Label(top, text = "Enter the duration of the event")
+        durationLbl.pack()
+
+        eDuration = Entry(top, width = 20)
+        eDuration.pack()
+
+
+        submitEventBtn = Button(top, text="submit event")
+        submitEventBtn.pack()
+        runSimBtn = Button(top, text = "Run Simulation")
+        runSimBtn.pack()
+        return
+
+    welcomeLabel = Label(root, text="Welcome to the Police Dispatch Simulator!")
+    welcomeLabel.pack()
+
+    numUnitsLbl = Label(root, text="Enter the number of Police Units in your simulation")
+    numUnitsLbl.pack()
+
+    global e
+    e = Entry(root, width = 20)
+    e.pack()
     
+    button1 = Button(root, text="continue", command=firstClick)
+    button1.pack()
+    
+
+    mainloop()
+
     sim = Simulation(4)
     sim.addToIncidentQueue(Incident(339, IncidentType.ROBBERY, 97))
     sim.addToIncidentQueue(Incident(331, IncidentType.TRAFFIC_COLLISION, 97))
@@ -49,3 +99,8 @@ class Run:
     sim.addToIncidentQueue(Incident(10, IncidentType.ROBBERY, 108))
             
     sim.run()
+
+
+
+
+   
